@@ -38,7 +38,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-yellow-50 p-4">
+    <div className="min-h-screen flex flex-col justify-between bg-green-50 p-4">
       <div>
         <Header date={selectedDateKey} />
         {currentEntry ? (
