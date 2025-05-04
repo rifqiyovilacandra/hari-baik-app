@@ -1,58 +1,21 @@
-import { useState, useEffect } from "react";
-import Header from "./components/Header";
-import JournalEntry from "./components/JournalEntry";
+import { useState } from "react";
 import JournalForm from "./components/JournalForm";
 import CalendarFooter from "./components/CalendarFooter";
 
 function App() {
-  const today = new Date();
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth()); // 0-based
-  const [selectedDay, setSelectedDay] = useState(today.getDate());
-  const [journalData, setJournalData] = useState({});
-
-  const getDateKey = (year, month, day) => `${year}-${month + 1}-${day}`;
-
-  const selectedDateKey = getDateKey(currentYear, currentMonth, selectedDay);
-  const currentEntry = journalData[selectedDateKey];
-
-  // Load from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("hari-baik-journals");
-    if (saved) {
-      setJournalData(JSON.parse(saved));
-    }
-  }, []);
-
-  // Save to localStorage
-  useEffect(() => {
-    localStorage.setItem("hari-baik-journals", JSON.stringify(journalData));
-  }, [journalData]);
-
-  const handleSaveEntry = (title, lesson, mood) => {
-    const newData = {
-      ...journalData,
-      [selectedDateKey]: { title, lesson, mood },
-    };
-    setJournalData(newData);
-  };
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-green-50 p-4">
-      <div>
-        <Header date={selectedDateKey} />
-        {currentEntry ? (
-          <JournalEntry data={currentEntry} />
-        ) : (
-          <JournalForm onSave={handleSaveEntry} />
-        )}
+    <div className="min-h-screen w-screen bg-red-900 text-white flex flex-col md:flex-row items-stretch p-4 gap-4">
+      <div className="flex-1 bg-gray-800 rounded-2xl p-4 flex flex-col justify-between">
+        <JournalForm selectedDate={selectedDate} />
       </div>
-
-      <CalendarFooter
-        currentYear={currentYear}
-        currentMonth={currentMonth}
-        onSelectDate={(day) => setSelectedDay(day)}
-      />
+      <div className="md:w-1/3">
+        <CalendarFooter
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </div>
     </div>
   );
 }

@@ -1,48 +1,40 @@
-import { useState } from "react";
-
-export default function JournalForm({ onSave }) {
-  const [title, setTitle] = useState("");
-  const [lesson, setLesson] = useState("");
-  const [mood, setMood] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (title && lesson && mood) {
-      onSave(title, lesson, mood);
-      setTitle("");
-      setLesson("");
-      setMood("");
-    }
-  };
+function JournalForm({ selectedDate }) {
+  const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const months = [
+    "JANUARI",
+    "FEBRUARI",
+    "MARET",
+    "APRIL",
+    "MEI",
+    "JUNI",
+    "JULI",
+    "AGUSTUS",
+    "SEPTEMBER",
+    "OKTOBER",
+    "NOVEMBER",
+    "DESEMBER",
+  ];
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 mt-4 rounded shadow">
-      <input
-        type="text"
-        placeholder="Judul"
-        className="block w-full mb-2 p-2 border rounded"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+    <div className="flex flex-col justify-between h-full">
       <textarea
-        placeholder="Pelajaran Hari Ini"
-        className="block w-full mb-2 p-2 border rounded"
-        value={lesson}
-        onChange={(e) => setLesson(e.target.value)}
+        className="w-full h-full p-4 text-black rounded-xl resize-none"
+        placeholder="Tulis catatan harimu di sini..."
       />
-      <input
-        type="text"
-        placeholder="Mood (😊 / 😔)"
-        className="block w-full mb-2 p-2 border rounded"
-        value={mood}
-        onChange={(e) => setMood(e.target.value)}
-      />
-      <button
-        type="submit"
-        className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded text-white w-full"
-      >
-        Simpan Catatan
-      </button>
-    </form>
+      <div className="flex justify-between items-center mt-4 px-2 py-3 border-t border-white/10">
+        <div>
+          <p className="text-sm text-gray-400">{days[selectedDate.getDay()]}</p>
+          <p className="text-lg font-bold">
+            {selectedDate.getDate()} {months[selectedDate.getMonth()]},{" "}
+            {selectedDate.getFullYear()}
+          </p>
+        </div>
+        <button className="bg-white text-black px-4 py-2 rounded-xl">
+          Simpan
+        </button>
+      </div>
+    </div>
   );
 }
+
+export default JournalForm;

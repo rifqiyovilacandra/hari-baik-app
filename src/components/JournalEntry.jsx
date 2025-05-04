@@ -1,6 +1,6 @@
 export default function JournalEntry({ data }) {
   return (
-    <div className="bg-white p-4 rounded shadow mt-2">
+    <div className="bg-white p-4 rounded shadow mt-2 text-black">
       <p>
         <strong>Judul:</strong> {data.title}
       </p>
